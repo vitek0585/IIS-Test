@@ -1,0 +1,71 @@
+﻿<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/Encrypt/rsa.js"></script>
+<script src="~/Scripts/Encrypt/jsencrypt.js"></script>
+<script src="~/Scripts/Other/Encrypt.js"></script>
+<div ng-app="app" ng-controller="encryptCtrl as ec" style="margin-top: 100px">
+    <label>Info {{ec.info}}</label>
+    <input type="text" ng-model="ec.text" />
+    <button ng-click="ec.submit()">Send</button>
+    <label>Result: {{ec.result}}</label>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Encrypt/rsa.js"></script>
+    <script type="text/javascript">
+
+        setMaxDigits(262);
+
+        function doEncrypt(mValue, eValue, keySize, textToEncript) {
+            var key = new RSAKeyPair(eValue, eValue, mValue, keySize);
+
+            // to encrypt phone number we use PKCS #1 v1.5 padding
+            // the encrypted phone number is represented in Hex format of byte array
+            return encryptedString(key,
+                textToEncript,
+                RSAAPP.PKCS1Padding,
+                RSAAPP.NumericEncoding);
+        }
+
+        angular.module('app', [])
+            .controller('encryptCtrl',
+            [
+                '$http', function (http) {
+
+                    var ec = this;
+                    ec.text = '';
+                    ec.info = undefined;
+                    var pKey = {
+                        ex: '',
+                        md: ''
+                    };
+                    http.get('/api/Data/GetPublicKey')
+                        .then(function (response) {
+                            pKey.ex = response.data.Exponent;
+                            pKey.md = response.data.Modules;
+                            pKey.sz = response.data.Size;
+                            ec.info = 'public key is get';
+                        },
+                            function () {
+                                ec.info = 'public key did not get';
+                            });
+
+                    ec.submit = function () {
+                        var encrypt = new JSEncrypt();
+                        encrypt.default_public_exponent(pKey.ex);
+                        encrypt.m
+                        var encriptedKey = doEncrypt(pKey.md, pKey.ex, pKey.sz, ec.text);
+                        var xhr = http.post('/api/Data/Decrypt', '"'+encriptedKey+'"');
+
+                        xhr.success(function (data) {
+                            ec.result = data;
+                        });
+                        xhr.error(function (data) {
+                            ec.result = 'error';
+                        });
+                    }
+                }
+            ]);
+
+
+    </script>
+}

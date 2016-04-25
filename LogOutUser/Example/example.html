@@ -1,0 +1,66 @@
+﻿<script type="text/javascript">
+    (function () {
+        'use strict';
+        var app = angular.module('app', ['gridCredoLab']);
+
+        app.controller('global', global);
+        global.$inject = ['$scope', 'clGridContainer'];
+
+        function global(scope, clGridContainer) {
+
+            scope.data = [{ id: 1, name: 'vitek' }, { id: 2, name: 'kristina' }, { id: 3, name: 'alex' }, { id: 4, name: 'anna' }];
+            scope.data1 = [{ id: 10, name: 'marya' }, { id: 20, name: 'alena' }, { id: 30, name: 'dima' }, { id: 40, name: 'serg' }];
+
+            scope.index = 'alex';
+            scope.get = function () {
+                scope.selctedItem1 = clGridContainer.clGridSelectedItems('name1');
+                scope.selctedItem2 = clGridContainer.clGridSelectedItems('name2');
+            }
+            scope.sort = function (a) {
+                console.log('sort by field = '+a);
+            }
+        }
+
+    })();
+</script>
+
+<div ng-app="app" ng-controller="global">
+
+    <div cl-grid data="data" class="row" id="name1" multiselect>
+        <div cl-header>
+            <div cl-caption sortable field="id" class="col-md-6">Id</div>
+            <div cl-caption sortable field="name" class="col-md-6">Name</div>
+        </div>
+        <div cl-body>
+            <div>{{header}}</div>
+            <div class="col-md-6">{{item.id}}</div>
+            <!--Your build logic-->
+            <div class="col-md-6" ng-style="index==item.name?{'color':'blue'}:{}">{{item.name}} - {{index}}</div>
+        </div>
+    </div>
+
+    <div cl-grid data="data1" class="row" id="name2" grid-template="templ"></div>
+
+    <!--show selected item-->
+    <div class="row">Grid - id name1 = Multiselect</div>
+    <div class="row" ng-repeat="item in selctedItem1">
+        <div class="col-md-6">Selected = {{item.name}}</div>
+    </div>
+    <div class="row">Grid - id name2 = One Select</div>
+    <div class="row">Selected = {{selctedItem2.name}}</div>
+
+
+    <button ng-click="get()">get all</button>
+</div>
+
+<script type="text/ng-template" id="templ">
+    <div cl-header local="false" sort-action="sort">
+        <div cl-caption sortable field="id" class="col-md-6">Id</div>
+        <div cl-caption sortable field="name" class="col-md-6">Name</div>
+    </div>
+    <div cl-body>
+        <div>{{header}}</div>
+        <div class="col-md-6">{{item.id}}</div>
+        <div class="col-md-6" ng-style="index==item.name?{'color':'blue'}:{}">{{item.name}} - {{index}}</div>
+    </div>
+</script>
