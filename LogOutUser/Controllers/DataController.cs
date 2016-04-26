@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Hosting;
@@ -84,14 +85,14 @@ namespace LogOutUser.Controllers
         {
             var path = Path.Combine(HostingEnvironment.MapPath("~/"),"data.xml");
             var data = File.ReadAllText(path);
-            return Request.CreateResponse(HttpStatusCode.Accepted, data);
+            return Request.CreateResponse(HttpStatusCode.Accepted, string.Empty,new XmlMediaTypeFormatter());
         }
         [HttpGet]
         public HttpResponseMessage Json()
         {
             var path = Path.Combine(HostingEnvironment.MapPath("~/"), "data.xml");
             var data = File.ReadAllText(path);
-            return Request.CreateResponse(HttpStatusCode.Accepted, new { data });
+            return Request.CreateResponse(HttpStatusCode.Accepted, new { data = string.Empty });
         }
 
     }

@@ -27,7 +27,11 @@ namespace RemoteData
             var data = response.Content.ReadAsStringAsync().Result;
             var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(data);
-            
+            if (string.IsNullOrWhiteSpace(xmlDocument.InnerText))
+            {
+                Console.WriteLine("Empty");
+                Console.ReadKey();
+            }
             var doc = XDocument.Parse(xmlDocument.InnerText);
             foreach (XElement node in doc.Elements())
             {
