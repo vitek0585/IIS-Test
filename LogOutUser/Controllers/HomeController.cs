@@ -14,10 +14,13 @@ namespace LogOutUser.Controllers
         {
             return View();
         }
-
+        public ActionResult Spa()
+        {
+            return View();
+        }
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Your application description page. Hello!!!!!";
 
             return View();
         }

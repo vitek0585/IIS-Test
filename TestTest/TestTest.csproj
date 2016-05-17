@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -85,6 +86,10 @@
     <ProjectReference Include="..\LogOutUser\LogOutUser.csproj">
       <Project>{b032cde0-ad36-4258-97a2-bbbbb5239720}</Project>
       <Name>LogOutUser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParallelTest\ParallelTest.csproj">
+      <Project>{28592416-fefb-40a2-a6d8-0de3c97bcdb2}</Project>
+      <Name>ParallelTest</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

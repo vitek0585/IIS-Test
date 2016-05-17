@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -6,9 +8,65 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using LogOutUser.Models;
+using Microsoft.AspNet.SignalR;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Common;
 
 namespace LogOutUser
 {
+    public partial class Startup
+    {
+        public static void ConfigureSignalR(IAppBuilder app)
+        {
+            var kernel = new StandardKernel(new SignalRModule());
+            var resolver = new NinjectSignalRDependencyResolver(kernel);
+            var config = new HubConfiguration();
+            GlobalHost.DependencyResolver = resolver;
+            config.Resolver = resolver;
+            app.MapSignalR(config);
+        }
+    }
+    public class SignalRModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<MyContext>().ToSelf().InRequestScope();
+            
+        }
+    }
+
+    class MyContext
+    {
+       public CategoryContext CategoryContext;
+
+        public MyContext(CategoryContext categoryContext)
+        {
+            CategoryContext = categoryContext;
+        }
+
+    }
+
+    internal class NinjectSignalRDependencyResolver : DefaultDependencyResolver
+    {
+        private readonly IKernel _kernel;
+        public NinjectSignalRDependencyResolver(IKernel kernel)
+        {
+            _kernel = kernel;
+        }
+
+        public override object GetService(Type serviceType)
+        {
+            return _kernel.TryGet(serviceType) ?? base.GetService(serviceType);
+        }
+
+        public override IEnumerable<object> GetServices(Type serviceType)
+        {
+            return _kernel.GetAll(serviceType).Concat(base.GetServices(serviceType));
+        }
+    }
+
+
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864

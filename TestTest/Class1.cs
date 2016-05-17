@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LogOutUser.Models;
+using ParallelTest;
 using Xunit;
 
 namespace TestTest
@@ -36,8 +37,19 @@ namespace TestTest
                     Users = u.Select(r => r.Email)
                 }).ToList();
 
-            ubers.ForEach(u => u.Users = result.First(r => r.id == u.SubId).Users.Where(us=>us!=u.Email));
+            ubers.ForEach(u => u.Users = result.First(r => r.id == u.SubId).Users.Where(us => us != u.Email));
 
+        }
+
+        [Fact]
+        public void TestParallel()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var t = Program.Main(null);
+                Assert.Equal(50, t);
+
+            }
         }
 
     }

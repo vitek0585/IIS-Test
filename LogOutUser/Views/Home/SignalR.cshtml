@@ -17,6 +17,9 @@
         <label>Items</label>
         <div ng-repeat="item in list">{{item.Id}} - {{item.Name}}</div>
     </div>
+
+    <button ng-click="run()">Very big method</button>
+    <div>{{total}}</div>
 </div>
 
 @section scripts{
@@ -28,7 +31,7 @@
 <script src="~/Scripts/ui-bootstrap-tpls-1.3.1.js"></script>
 
 <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
-<script src="~/Scripts/hubs.js"></script>
+<script src="~/signalr/hubs"></script>
     <script>
 
         var app = angular.module('app', []);
@@ -59,19 +62,33 @@
                 });
 
             }
+            scope.total = 0;
+            chat.client.onEnd=function() {
+                scope.total++;
+                scope.$apply();
+            }
+            chat.client.start = function () {
+                console.log("start");
+            }
+            chat.client.onError = function(t,m) {
+                console.log(t,m);
+            }
             scope.add = function() {
 
                 chat.server.addItem({id:scope.id,name:scope.name});
             }
-            scope.subscribe = 'User';
+           // scope.subscribe = 'User';
             scope.connect = function() {
                 $.connection.hub.start()
                     .done(function() {
-
+                        console.log('st');
                         if (scope.subscribe != 'User')
                             chat.server.subscribe(scope.subscribe);
 
                     });
+            }
+            scope.run = function() {
+                chat.server.veryBigMethod();
             }
 
         }
