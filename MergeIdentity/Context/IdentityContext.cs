@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MergeIdentity.Context
 {
-    public partial class IdentityContext : IdentityDbContext<User>
+    public partial class IdentityContext : IdentityDbContext<User, ApplicationRole, String, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
         public IdentityContext()
             : base("name=IdentityContext")
@@ -32,17 +32,17 @@ namespace MergeIdentity.Context
             //modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             //modelBuilder.Entity<IdentityUserRole>().HasKey(l => l.UserId);
 
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("AspNetUserClaims");
+            modelBuilder.Entity<ApplicationUserClaim>().ToTable("AspNetUserClaims");
 
 
             modelBuilder.Entity<User>().ToTable("AspNetUsers");
+            //modelBuilder.Entity<User>().HasMany(r => r.Roles).WithMany(r => r.);
 
 
 
-
-            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles");
-            modelBuilder.Entity<IdentityRole>().HasMany(i => i.Users)
-.WithRequired().HasForeignKey(i => i.RoleId);
+            //modelBuilder.Entity<Role>().ToTable("AspNetRoles");
+            modelBuilder.Entity<ApplicationRole>().ToTable("AspNetRoles");
+            modelBuilder.Entity<ApplicationRole>().HasMany(i => i.Users).WithRequired().HasForeignKey(i => i.RoleId);
             //.HasMany(e => e.Users)
             //.WithMany(e => e.Roles)
             //.Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
@@ -52,13 +52,20 @@ namespace MergeIdentity.Context
             //    .HasMany(e => e.AspNetUserClaims)
             //    .WithRequired(e => e.User)
             //    .HasForeignKey(e => e.UserId);
-            modelBuilder.Entity<IdentityUserRole>().Property(c => c.RoleId).HasColumnName("RoleId");
-            modelBuilder.Entity<IdentityUserRole>().Property(c => c.UserId).HasColumnName("UserId");
+            //modelBuilder.Entity<ApplicationUserRole>().Property(c => c.RoleId).HasColumnName("RoleId");
+            //modelBuilder.Entity<ApplicationUserRole>().Property(c => c.UserId).HasColumnName("UserId");
 
-            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.UserId, r.RoleId })
+            modelBuilder.Entity<ApplicationUserRole>().HasKey(r => new { r.UserId, r.RoleId })
             .ToTable("AspNetUserRoles");
 
-            modelBuilder.Entity<IdentityUserLogin>()
+            modelBuilder.Entity<ApplicationUserRole>().HasRequired(f => f.Role).WithMany(a => a.Users)
+            .HasForeignKey(key => key.RoleId);
+            //modelBuilder.Entity<ApplicationRole>()
+            //   .HasMany(e => e.Users)
+            //   .WithMany(e => e.Role)
+            //   .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
+
+            modelBuilder.Entity<ApplicationUserLogin>()
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId })
                 .ToTable("AspNetUserLogins");
 

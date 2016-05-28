@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MergeIdentity.Context
 {
-    public partial class User : IdentityUser
+    public partial class User : IdentityUser<String,ApplicationUserLogin,ApplicationUserRole,ApplicationUserClaim>
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
@@ -70,7 +70,7 @@ namespace MergeIdentity.Context
         //public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
 
         public virtual Subscription Subscription { get; set; }
-
+        
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<IdentityRole> Roles1 { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

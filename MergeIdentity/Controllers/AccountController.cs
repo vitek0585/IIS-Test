@@ -80,7 +80,7 @@ namespace MergeIdentity.Controllers
             var user = UserManager.FindByEmail(model.Email);
             if (user.Subscription.IsActive)
             {
-                var roles = string.Join(",", user.Roles.Select(d => d.RoleId));
+                var roles = string.Join(",", user.Roles.Select(d => d.Role.Name));
                 ModelState.AddModelError("", roles);
                 return View(model);
             }
