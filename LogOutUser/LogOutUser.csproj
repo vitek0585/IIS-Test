@@ -213,6 +213,20 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Models\Entity\Application.cs" />
+    <Compile Include="Models\Entity\ApplicationHistory.cs" />
+    <Compile Include="Models\Entity\AspNetRole.cs" />
+    <Compile Include="Models\Entity\AspNetUser.cs" />
+    <Compile Include="Models\Entity\AspNetUserClaim.cs" />
+    <Compile Include="Models\Entity\AspNetUserLogin.cs" />
+    <Compile Include="Models\Entity\Attribute.cs" />
+    <Compile Include="Models\Entity\Country.cs" />
+    <Compile Include="Models\Entity\CredoLabContext.cs" />
+    <Compile Include="Models\Entity\Feature.cs" />
+    <Compile Include="Models\Entity\ScoreCard.cs" />
+    <Compile Include="Models\Entity\Subscription.cs" />
+    <Compile Include="Models\Entity\TelcoConnection.cs" />
+    <Compile Include="Models\Entity\TelcoConnectionPhoneCode.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,7 +25,7 @@ namespace TestTest
             var ubers = c.Users.Where(r => r.Roles.Any(ro => ro.RoleId == "1")).Select(
                 u => new UserTest()
                 {
-                    SubId = u.SubscriptionId,
+                   
                     SubName = u.Subscription.Name,
                     Email = u.Email
                 }).ToList();
