@@ -28,7 +28,7 @@ namespace MergeIdentity.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+       
         public ApplicationSignInManager SignInManager
         {
             get
@@ -52,7 +52,22 @@ namespace MergeIdentity.Controllers
                 _userManager = value;
             }
         }
+        [AllowAnonymous]
+        public User NewUser()
+        {
+            var user = new User()
+            {
+            Email = "vit@sd.ru",
+            UserName = "vit@sd.ru",
+                FirstName = "FName",
+                LastName = "Lname"
 
+            };
+            var id = UserManager.Create(user,"Test12!");
+            
+            return user;
+        }
+       
         //
         // GET: /Account/Login
         [AllowAnonymous]

@@ -215,10 +215,12 @@
     <Compile Include="Context\User.cs" />
     <Compile Include="Context\Attribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Context\Country.cs" />
     <Compile Include="Context\Feature.cs" />
+    <Compile Include="EcxeptionHandling\ExceptionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
